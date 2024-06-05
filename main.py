@@ -77,7 +77,7 @@ class PickleHandler(FileHandler):
         try:
             with open(self.filepath, 'wb') as picklefile:
                 pickle.dump(data, picklefile)
-                print("\nModified Pickle content saved successfully.\n")
+                print("\nModified Pickle content saved succssfully.\n")
                 print(data)
         except IOError:
             print(f"Error writing to file: {self.filepath}")
