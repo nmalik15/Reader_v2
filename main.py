@@ -40,6 +40,30 @@ class CSVHandler(FileHandler):
         except IOError:
             print(f"Error writing to file: {self.filepath}")
 
+class JSONHandler(FileHandler):
+    def read_file(self):
+        try:
+            with open(self.filepath, 'r') as jsonfile:
+                data = json.load(jsonfile)
+                print("\nOriginal JSON content:\n")
+                print(data)
+                return data
+        except FileNotFoundError:
+            print(f"File not found: {self.filepath}")
+            return None
+        except json.JSONDecodeError:
+            print("Error decoding JSON.")
+            return None
+
+    def save_file(self, data):
+        try:
+            with open(self.filepath, 'w') as jsonfile:
+                json.dump(data, jsonfile, indent=4)
+                print("\nModified JSON content saved successfully.\n")
+                print(data)
+        except IOError:
+            print(f"Error writing to file: {self.filepath}")
+
 class Main:
     def __init__(self, source, destination, changes):
         self.source = source
@@ -59,10 +83,6 @@ class Main:
             return None
 
     def apply_changes(self, data):
-        if data is None:
-            print("Cannot apply changes. Data not available.")
-            return None
-
         try:
             for change in self.changes:
                 col, row, value = [int(x) if i < 2 else x.strip() for i, x in enumerate(change.split(","))]
