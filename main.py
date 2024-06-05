@@ -64,6 +64,30 @@ class JSONHandler(FileHandler):
         except IOError:
             print(f"Error writing to file: {self.filepath}")
 
+class PickleHandler(FileHandler):
+    def read_file(self):
+        try:
+            with open(self.filepath, 'rb') as picklefile:
+                data = pickle.load(picklefile)
+                print("\nOriginal Pickle content:\n")
+                print(data)
+                return data
+        except FileNotFoundError:
+            print(f"File not found: {self.filepath}")
+            return None
+        except pickle.UnpicklingError:
+            print("Error unpickling data.")
+            return None
+
+    def save_file(self, data):
+        try:
+            with open(self.filepath, 'wb') as picklefile:
+                pickle.dump(data, picklefile)
+                print("\nModified Pickle content saved successfully.\n")
+                print(data)
+        except IOError:
+            print(f"Error writing to file: {self.filepath}")
+
 class Main:
     def __init__(self, source, destination, changes):
         self.source = source
