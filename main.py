@@ -8,12 +8,6 @@ import pickle
 class FileHandler:
     def __init__(self, filepath):
         self.filepath = filepath
-
-    def read_file(self):
-        raise NotImplementedError
-
-    def save_file(self, data):
-        raise NotImplementedError
     
 class CSVHandler(FileHandler):
     def read_file(self):
@@ -128,23 +122,22 @@ class Main:
             else:
                 print("Unsupported destination file type.")
 
-if __name__ == "__main__":
-    if len(sys.argv) < 3:
-        print("Usage of the app:")
-        print("Please type in the command in the following format with all arguments provided:")
-        if (os.name) == "nt":
-            print("py reader.py src_file dst_file change1 change2 change3 change4")
-        else:
-            print("python3 reader.py src_file dst_file change1 change2 change3 change4")
-        sys.exit(1)
+if len(sys.argv) < 3:
+    print("Usage of the app:")
+    print("Please type in the command in the following format with all arguments provided:")
+    if (os.name) == "nt":
+        print("py reader.py src_file dst_file change1 change2 change3 change4")
+    else:
+        print("python3 reader.py src_file dst_file change1 change2 change3 change4")
+    sys.exit(1)
 
-    src_file = sys.argv[1]
-    dst_file = sys.argv[2]
-    changes = sys.argv[3:]
+src_file = sys.argv[1]
+dst_file = sys.argv[2]
+changes = sys.argv[3:]
 
-    if not changes:
-        print("No changes provided!")
-        sys.exit(1)
+if not changes:
+    print("No changes provided!")
+    sys.exit(1)
 
-    reader = Main(src_file, dst_file, changes)
-    reader.process()
+reader = Main(src_file, dst_file, changes)
+reader.process()
